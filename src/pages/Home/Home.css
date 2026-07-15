@@ -1,0 +1,79 @@
+.home-page {
+  min-height: 100vh;
+  padding-bottom: 72px;
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--color-primary) 22%, transparent), transparent 34%),
+    linear-gradient(180deg, var(--color-background-soft), var(--color-background));
+  color: var(--color-text);
+}
+
+.home-hero {
+  padding: 96px 7vw 64px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-label {
+  margin: 0 0 12px;
+  color: var(--color-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.home-hero h1 {
+  max-width: 820px;
+  margin: 0;
+  font-size: clamp(2.6rem, 7vw, 5.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+}
+
+.home-hero p:last-child {
+  max-width: 580px;
+  margin: 24px 0 0;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.home-section {
+  padding: 64px 7vw 0;
+}
+
+.section-header {
+  margin-bottom: 24px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: -0.05em;
+}
+
+.status-message {
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+}
+
+.status-message-error {
+  border-color: color-mix(in srgb, var(--color-danger) 35%, transparent);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+@media (max-width: 620px) {
+  .home-hero,
+  .home-section {
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+
+  .home-hero {
+    padding-top: 72px;
+  }
+}

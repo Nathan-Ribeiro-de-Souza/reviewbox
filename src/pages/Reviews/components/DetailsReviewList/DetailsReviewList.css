@@ -1,0 +1,85 @@
+.details-review-list {
+  display: grid;
+  gap: 16px;
+}
+
+.details-review-card {
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-surface);
+}
+
+.details-review-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.details-review-text {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+.details-review-edit textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  outline: none;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.details-review-edit textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.details-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.review-save-button,
+.review-secondary-button,
+.review-delete-button {
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.review-save-button {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+}
+
+.review-secondary-button {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+}
+
+.review-delete-button {
+  border: 1px solid color-mix(in srgb, var(--color-danger) 35%, transparent);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.review-save-button:hover,
+.review-secondary-button:hover,
+.review-delete-button:hover {
+  transform: translateY(-2px);
+}

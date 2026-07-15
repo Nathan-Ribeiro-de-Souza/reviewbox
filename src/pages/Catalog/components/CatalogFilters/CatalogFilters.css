@@ -1,0 +1,27 @@
+.catalog-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.catalog-filters select,
+.catalog-filters input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.catalog-filters select:focus,
+.catalog-filters input:focus {
+  border-color: var(--color-primary);
+}
+
+@media (max-width: 850px) {
+  .catalog-filters {
+    grid-template-columns: 1fr;
+  }
+}

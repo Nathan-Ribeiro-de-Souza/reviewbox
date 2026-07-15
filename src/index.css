@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root[data-theme='dark'] {
+  --color-background: #07070b;
+  --color-background-soft: #0b0b12;
+  --color-surface: #151520;
+  --color-surface-soft: #1b1b28;
+  --color-text: #f8f7ff;
+  --color-muted: #aaa7b8;
+  --color-primary: #a879ff;
+  --color-primary-soft: rgba(168, 121, 255, 0.16);
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-danger: #fecaca;
+  --color-danger-bg: rgba(239, 68, 68, 0.14);
+  --color-warning: #facc15;
+  --shadow-card: 0 22px 50px rgba(0, 0, 0, 0.35);
+}
+
+:root[data-theme='light'] {
+  --color-background: #f7f4ff;
+  --color-background-soft: #ede7ff;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f1ecff;
+  --color-text: #171421;
+  --color-muted: #6b6478;
+  --color-primary: #6d28d9;
+  --color-primary-soft: rgba(109, 40, 217, 0.12);
+  --color-border: rgba(23, 20, 33, 0.12);
+  --color-danger: #991b1b;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-warning: #b45309;
+  --shadow-card: 0 18px 45px rgba(44, 31, 78, 0.14);
+}
+
+body {
+  min-width: 320px;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
