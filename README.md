@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# ReviewBox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ReviewBox is a front-end movie review project built with React and TypeScript, created as part of my learning journey in Front-end development.
 
-Currently, two official plugins are available:
+The project uses the TMDB API to display movies, search results, movie details, favorites, user reviews, filters, localStorage persistence, and dark/light mode.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This is not a real streaming platform. It is a portfolio and learning project focused on practicing React, TypeScript, component structure, state management, routing, API consumption, reusable hooks, Context API, UI organization, and front-end logic.
 
-## React Compiler
+## View Project
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+👉 [Live Demo](https://reviewbox-tau.vercel.app/)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Home page with popular movies
+* Home page with top rated movies
+* Movie carousel
+* Mobile carousel with horizontal scroll
+* Movie catalog
+* Search movies by name
+* Filter movies by genre
+* Filter movies by year
+* Filter movies by rating
+* Movie details page
+* Movie poster, overview, runtime, genres and rating
+* Movie director information
+* Add movies to favorites
+* Remove movies from favorites
+* Favorites persistence with localStorage
+* Add movie reviews
+* Edit review text
+* Edit review rating
+* Delete reviews
+* Review persistence with localStorage
+* Filter reviews by rating
+* Filter reviews by type
+* Dark mode and light mode
+* Theme persistence with localStorage
+* Responsive layout
+* Reusable useLocalStorage hook
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Technologies
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* React
+* TypeScript
+* React Router
+* Context API
+* CSS
+* TMDB API
+* localStorage
+* useState
+* useEffect
+* Custom Hooks
+* Vite
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## What I Learned
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+While building this project, I practiced important Front-end concepts such as:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* Creating reusable components
+* Working with props and TypeScript types
+* Consuming external APIs
+* Handling loading and error states
+* Managing global state with Context API
+* Creating custom hooks
+* Saving data with localStorage
+* Filtering data using multiple conditions
+* Working with dynamic routes
+* Rendering details pages based on URL params
+* Creating favorite logic
+* Creating review logic
+* Editing and deleting items from arrays
+* Improving responsive layouts
+* Building dark and light themes
+* Organizing a React project structure
+* Separating pages, components, contexts, hooks, services, types and utils
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Future Improvements
+
+In the future, I plan to improve this project by adding new sections and more complete features, such as:
+
+* Series catalog
+* Series details page
+* Series reviews
+* Anime catalog
+* Anime details page
+* Anime reviews
+* Separate filters for movies, series and animes
+* Better review organization by content type
+* User profile page
+* Back-end integration
+* User authentication
+* Database persistence
+* Real user accounts
+* Personal watchlist
+* Review likes or reactions
+
+My goal is to keep improving this project as I learn more Front-end and Back-end development, turning it into a more complete Full Stack application in the future.
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/SEU-USUARIO/reviewbox.git
