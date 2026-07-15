@@ -1,10 +1,10 @@
 import { createContext } from 'react'
 
-import type { FavoritesType } from '../../types/FavoriteTypes'
+import type { FavoriteType } from '../../types/FavoriteTypes'
 
 type FavoritesContextType = {
-  favorites: FavoritesType[]
-  addFavorite: (movie: FavoritesType) => void
+  favorites: FavoriteType[]
+  addFavorite: (movie: FavoriteType) => void
   removeFavorite: (movieId: number) => void
   isFavorite: (movieId: number) => boolean
 }
