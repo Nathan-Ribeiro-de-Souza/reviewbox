@@ -36,6 +36,7 @@ export function MovieCarousel({ movies }: MovieCarouselProps) {
   const totalPages = Math.ceil(movies.length / MOVIES_PER_PAGE)
 
   const startIndex = currentPage * MOVIES_PER_PAGE
+  
   const visibleMovies = movies.slice(startIndex, startIndex + MOVIES_PER_PAGE)
 
   const moviesToRender = isMobile ? movies : visibleMovies

@@ -62,6 +62,18 @@
   color: var(--color-muted);
 }
 
+.reviews-empty-link{
+  border: none;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.reviews-empty-link:active{
+  color: var(--color-primary-soft);
+}
+
+
 .reviews-grid {
   display: grid;
   gap: 18px;

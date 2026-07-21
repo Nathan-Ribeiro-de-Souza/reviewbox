@@ -20,9 +20,11 @@ export function FavoritesPage() {
 
       <section className="favorites-content">
         {!hasFavorites && (
+          
           <p className="favorites-empty-message">
-            You have not added any favorite movies yet.
+            You have not added any favorite movies yet. <Link to='/catalog' className='favorites-empty-link'>Click Here for Catalog</Link>
           </p>
+         
         )}
 
         {hasFavorites && (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 
 import { useFavorites } from '../../hooks/useFavorites'
@@ -134,7 +135,7 @@ export function DetailsMovie() {
 
         {movieReviews.length === 0 ? (
           <p className="details-empty-message">
-            No reviews for this movie yet.
+            No reviews for this movie yet. <Link to='/catalog' className='details-empty-link'>Click Here for Catalog</Link>
           </p>
         ) : (
           <DetailsReviewList

@@ -84,7 +84,7 @@ export function ReviewsPage() {
       <section className="reviews-content">
         {!hasReviews && (
           <p className="reviews-empty-message">
-            No reviews found with the selected filters.
+            No reviews found with the selected filters. <Link to='/catalog' className='reviews-empty-link'>Click Here for Catalog</Link>
           </p>
         )}
 

@@ -58,6 +58,17 @@
   color: var(--color-muted);
 }
 
+.details-empty-link{
+  border: none;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.details-empty-link:active{
+  color: var(--color-primary-soft);
+}
+
 .details-status-message-error {
   border-color: color-mix(in srgb, var(--color-danger) 35%, transparent);
   background: var(--color-danger-bg);
