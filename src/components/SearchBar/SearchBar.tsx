@@ -9,12 +9,7 @@ type SearchBarProps = {
   placeholder?: string
 }
 
-export function SearchBar({
-  value,
-  onChange,
-  onSubmit,
-  placeholder = 'Search movies...'
-}: SearchBarProps) {
+export function SearchBar({ value, onChange, onSubmit, placeholder = 'Search' }: SearchBarProps) {
   
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()

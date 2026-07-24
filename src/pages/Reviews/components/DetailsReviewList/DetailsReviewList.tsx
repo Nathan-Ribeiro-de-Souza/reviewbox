@@ -2,17 +2,17 @@ import { useState } from 'react'
 
 import { StarRating } from '../../../../components/RatingStars/StarRating'
 import { useReviews } from '../../../../hooks/useReviews'
+import { formatReviewDate } from '../../../../utils/formatters'
 
 import type { ReviewType } from '../../../../types/ReviewType'
 
 import './DetailsReviewList.css'
-import { formatReviewDate } from '../../../../utils/formatters'
 
 type DetailsReviewListProps = {
-  movieReviews: ReviewType[]
+  reviews: ReviewType[]
 }
 
-export function DetailsReviewList({ movieReviews }: DetailsReviewListProps) {
+export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
   const { removeReview, editReview } = useReviews()
 
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null)
@@ -39,7 +39,7 @@ export function DetailsReviewList({ movieReviews }: DetailsReviewListProps) {
       return
     }
 
-    editReview(reviewId, trimmedText, editRating )
+    editReview(reviewId, trimmedText, editRating)
     setEditingReviewId(null)
     setEditedText('')
     setEditRating(0)
@@ -47,7 +47,7 @@ export function DetailsReviewList({ movieReviews }: DetailsReviewListProps) {
 
   return (
     <div className="details-review-list">
-      {movieReviews.map((review) => {
+      {reviews.map((review) => {
         const isEditing = editingReviewId === review.id
 
         return (
@@ -59,12 +59,12 @@ export function DetailsReviewList({ movieReviews }: DetailsReviewListProps) {
             {isEditing ? (
               <div className="details-review-edit">
                 <StarRating value={editRating} onChange={setEditRating} />
+
                 <textarea
                   value={editedText}
                   onChange={(event) => setEditedText(event.target.value)}
                   rows={4}
                 />
-
 
                 <div className="details-review-actions">
                   <button
@@ -87,10 +87,10 @@ export function DetailsReviewList({ movieReviews }: DetailsReviewListProps) {
             ) : (
               <>
                 <StarRating value={review.userRating} readOnly />
+
                 <p className="details-review-text">{review.userReview}</p>
 
                 <div className="details-review-actions">
-                  
                   <button
                     type="button"
                     className="review-secondary-button"

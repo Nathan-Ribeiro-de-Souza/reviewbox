@@ -65,3 +65,11 @@
     padding-top: 72px;
   }
 }
+
+.catalog-media-section {
+  margin-top: 42px;
+}
+
+.catalog-media-section:first-child {
+  margin-top: 0;
+}

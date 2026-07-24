@@ -1,8 +1,7 @@
 import { type ReactNode } from 'react'
 
-import { ReviewsContext } from './ReviewsContext'
-
 import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { ReviewsContext } from './ReviewsContext'
 
 import type { ReviewType } from '../../types/ReviewType'
 
@@ -13,23 +12,24 @@ type ReviewsProviderProps = {
 const REVIEWS_STORAGE_KEY = 'reviewbox:reviews'
 
 export function ReviewsProvider({ children }: ReviewsProviderProps) {
-  const [reviews, setReviews] = useLocalStorage<ReviewType[]>(REVIEWS_STORAGE_KEY, [])
+  const [reviews, setReviews] = useLocalStorage<ReviewType[]>(
+    REVIEWS_STORAGE_KEY,
+    []
+  )
 
   function addReview(review: ReviewType) {
     setReviews((prev) => [...prev, review])
   }
 
   function removeReview(reviewId: number) {
-    setReviews((prev) =>
-      prev.filter((review) => review.id !== reviewId)
-    )
+    setReviews((prev) => prev.filter((review) => review.id !== reviewId))
   }
 
-  function editReview(reviewId: number, newText: string, newRating: number ) {
+  function editReview(reviewId: number, newText: string, newRating: number) {
     setReviews((prev) =>
       prev.map((review) =>
         review.id === reviewId
-          ? { ...review, userReview: newText, userRating: newRating  }
+          ? { ...review, userReview: newText, userRating: newRating }
           : review
       )
     )

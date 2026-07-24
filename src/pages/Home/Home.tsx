@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react'
 
 import { MovieCarousel } from './components/MovieCarousel/MovieCarousel'
-import { getPopularMovies, getTopRatedMovies } from '../../services/tmdbApi'
+import { SerieCarousel } from './components/SerieCarousel/SerieCarousel'
 
-import type { Movie } from '../../types/ApiTypes'
+import {
+  getPopularMovies,
+  getTopRatedMovies,
+  getPopularSeries,
+  getTopRatedSeries
+} from '../../services/tmdbApi'
+
+import type { Movie, TVSeries } from '../../types/ApiTypes'
 
 import './Home.css'
 
@@ -11,55 +18,92 @@ export function Home() {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([])
   const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([])
 
-  const [isPopularLoading, setIsPopularLoading] = useState(false)
-  const [isTopRatedLoading, setIsTopRatedLoading] = useState(false)
+  const [popularSeries, setPopularSeries] = useState<TVSeries[]>([])
+  const [topRatedSeries, setTopRatedSeries] = useState<TVSeries[]>([])
 
-  const [popularErrorMessage, setPopularErrorMessage] = useState('')
-  const [topRatedErrorMessage, setTopRatedErrorMessage] = useState('')
+  const [isPopularMoviesLoading, setIsPopularMoviesLoading] = useState(false)
+  const [isTopRatedMoviesLoading, setIsTopRatedMoviesLoading] = useState(false)
+
+  const [isPopularSeriesLoading, setIsPopularSeriesLoading] = useState(false)
+  const [isTopRatedSeriesLoading, setIsTopRatedSeriesLoading] = useState(false)
+
+  const [popularMoviesErrorMessage, setPopularMoviesErrorMessage] = useState('')
+  const [topRatedMoviesErrorMessage, setTopRatedMoviesErrorMessage] = useState('')
+
+  const [popularSeriesErrorMessage, setPopularSeriesErrorMessage] = useState('')
+  const [topRatedSeriesErrorMessage, setTopRatedSeriesErrorMessage] = useState('')
 
   useEffect(() => {
     async function loadPopularMovies() {
       try {
-        setIsPopularLoading(true)
-        setPopularErrorMessage('')
+        setIsPopularMoviesLoading(true)
+        setPopularMoviesErrorMessage('')
 
         const movies = await getPopularMovies()
         setPopularMovies(movies)
       } catch {
-        setPopularErrorMessage('Failed to load popular movies.')
+        setPopularMoviesErrorMessage('Failed to load popular movies.')
       } finally {
-        setIsPopularLoading(false)
+        setIsPopularMoviesLoading(false)
       }
     }
 
     async function loadTopRatedMovies() {
       try {
-        setIsTopRatedLoading(true)
-        setTopRatedErrorMessage('')
+        setIsTopRatedMoviesLoading(true)
+        setTopRatedMoviesErrorMessage('')
 
         const movies = await getTopRatedMovies()
         setTopRatedMovies(movies)
       } catch {
-        setTopRatedErrorMessage('Failed to load top rated movies.')
+        setTopRatedMoviesErrorMessage('Failed to load top rated movies.')
       } finally {
-        setIsTopRatedLoading(false)
+        setIsTopRatedMoviesLoading(false)
+      }
+    }
+
+    async function loadPopularSeries() {
+      try {
+        setIsPopularSeriesLoading(true)
+        setPopularSeriesErrorMessage('')
+
+        const series = await getPopularSeries()
+        setPopularSeries(series)
+      } catch {
+        setPopularSeriesErrorMessage('Failed to load popular series.')
+      } finally {
+        setIsPopularSeriesLoading(false)
+      }
+    }
+
+    async function loadTopRatedSeries() {
+      try {
+        setIsTopRatedSeriesLoading(true)
+        setTopRatedSeriesErrorMessage('')
+
+        const series = await getTopRatedSeries()
+        setTopRatedSeries(series)
+      } catch {
+        setTopRatedSeriesErrorMessage('Failed to load top rated series.')
+      } finally {
+        setIsTopRatedSeriesLoading(false)
       }
     }
 
     loadPopularMovies()
     loadTopRatedMovies()
+    loadPopularSeries()
+    loadTopRatedSeries()
   }, [])
 
   return (
     <main className="home-page">
       <section className="home-hero">
         <p className="section-label">ReviewBox</p>
-
         <h1>Discover, rate and review your favorite stories.</h1>
-
         <p>
-          Explore popular and top rated movies while building your own review
-          collection.
+          Explore popular and top rated movies and series while building your
+          own review collection.
         </p>
       </section>
 
@@ -69,16 +113,34 @@ export function Home() {
           <h2>Popular Movies</h2>
         </div>
 
-        {isPopularLoading && <p className="status-message">Loading...</p>}
+        {isPopularMoviesLoading && <p className="status-message">Loading...</p>}
 
-        {popularErrorMessage && (
+        {popularMoviesErrorMessage && (
           <p className="status-message status-message-error">
-            {popularErrorMessage}
+            {popularMoviesErrorMessage}
           </p>
         )}
 
-        {!isPopularLoading && !popularErrorMessage && (
+        {!isPopularMoviesLoading && !popularMoviesErrorMessage && (
           <MovieCarousel movies={popularMovies} />
+        )}
+      </section>
+
+      <section className="home-section">
+        <div className="section-header">
+          <h2>Popular Series</h2>
+        </div>
+
+        {isPopularSeriesLoading && <p className="status-message">Loading...</p>}
+
+        {popularSeriesErrorMessage && (
+          <p className="status-message status-message-error">
+            {popularSeriesErrorMessage}
+          </p>
+        )}
+
+        {!isPopularSeriesLoading && !popularSeriesErrorMessage && (
+          <SerieCarousel series={popularSeries} />
         )}
       </section>
 
@@ -88,16 +150,34 @@ export function Home() {
           <h2>Top Rated Movies</h2>
         </div>
 
-        {isTopRatedLoading && <p className="status-message">Loading...</p>}
+        {isTopRatedMoviesLoading && <p className="status-message">Loading...</p>}
 
-        {topRatedErrorMessage && (
+        {topRatedMoviesErrorMessage && (
           <p className="status-message status-message-error">
-            {topRatedErrorMessage}
+            {topRatedMoviesErrorMessage}
           </p>
         )}
 
-        {!isTopRatedLoading && !topRatedErrorMessage && (
+        {!isTopRatedMoviesLoading && !topRatedMoviesErrorMessage && (
           <MovieCarousel movies={topRatedMovies} />
+        )}
+      </section>
+
+      <section className="home-section">
+        <div className="section-header">
+          <h2>Top Rated Series</h2>
+        </div>
+
+        {isTopRatedSeriesLoading && <p className="status-message">Loading...</p>}
+
+        {topRatedSeriesErrorMessage && (
+          <p className="status-message status-message-error">
+            {topRatedSeriesErrorMessage}
+          </p>
+        )}
+
+        {!isTopRatedSeriesLoading && !topRatedSeriesErrorMessage && (
+          <SerieCarousel series={topRatedSeries} />
         )}
       </section>
     </main>

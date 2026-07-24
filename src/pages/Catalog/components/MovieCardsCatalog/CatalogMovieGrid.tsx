@@ -12,13 +12,11 @@ type CatalogMovieGridProps = {
 }
 
 export function CatalogMovieGrid({ movies, getGenreNamesByIds }: CatalogMovieGridProps) {
-
   return (
     <ul className="catalog-grid">
       {movies.map((movie) => (
         <li key={movie.id} className="catalog-card">
           <Link to={`/detailsMovie/${movie.id}`} className="catalog-card-link">
-            
             {movie.poster_path ? (
               <img
                 src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}

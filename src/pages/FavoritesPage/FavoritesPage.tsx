@@ -14,59 +14,67 @@ export function FavoritesPage() {
     <main className="favorites-page">
       <section className="favorites-hero">
         <p className="section-label">Favorites</p>
-        <h1>Your saved movies.</h1>
-        <p>Keep track of the movies you want to revisit later.</p>
+        <h1>Your saved movies and series.</h1>
+        <p>Keep track of the stories you want to revisit later.</p>
       </section>
 
       <section className="favorites-content">
         {!hasFavorites && (
-          
           <p className="favorites-empty-message">
-            You have not added any favorite movies yet. <Link to='/catalog' className='favorites-empty-link'>Click Here for Catalog</Link>
+            You have not added any favorites yet.{' '}
+            <Link to="/catalog" className="favorites-empty-link">
+              Click Here for Catalog
+            </Link>
           </p>
-         
         )}
 
         {hasFavorites && (
           <ul className="favorites-grid">
-            {favorites.map((favorite) => (
-              <li key={favorite.id} className="favorite-card">
-                <Link
-                  to={`/detailsMovie/${favorite.id}`}
-                  className="favorite-card-link"
+            {favorites.map((favorite) => {
+              const detailsPath =
+                favorite.mediaType === 'Serie'
+                  ? `/detailsSerie/${favorite.id}`
+                  : `/detailsMovie/${favorite.id}`
+
+              return (
+                <li
+                  key={`${favorite.mediaType}-${favorite.id}`}
+                  className="favorite-card"
                 >
-                  
-                  {favorite.poster_path ? (
-                    <img
-                      src={`https://image.tmdb.org/t/p/w300${favorite.poster_path}`}
-                      alt={favorite.title}
-                      className="favorite-card-poster"
-                    />
-                  ) : (
-                    <div className="favorite-card-poster favorite-card-poster-placeholder">
-                      No poster
+                  <Link to={detailsPath} className="favorite-card-link">
+                    {favorite.poster_path ? (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w300${favorite.poster_path}`}
+                        alt={favorite.title}
+                        className="favorite-card-poster"
+                      />
+                    ) : (
+                      <div className="favorite-card-poster favorite-card-poster-placeholder">
+                        No poster
+                      </div>
+                    )}
+
+                    <div className="favorite-card-content">
+                      <h2>{favorite.title}</h2>
+
+                      <div className="favorite-card-info">
+                        <span>{formatYear(favorite.release_date)}</span>
+                        <span>⭐ {formatRating(favorite.vote_average)}</span>
+                        <span>{favorite.mediaType}</span>
+                      </div>
                     </div>
-                  )}
+                  </Link>
 
-                  <div className="favorite-card-content">
-                    <h2>{favorite.title}</h2>
-
-                    <div className="favorite-card-info">
-                      <span>{formatYear(favorite.release_date)}</span>
-                      <span>⭐ {formatRating(favorite.vote_average)}</span>
-                    </div>
-                  </div>
-                </Link>
-
-                <button
-                  type="button"
-                  className="favorite-card-remove-button"
-                  onClick={() => removeFavorite(favorite.id)}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
+                  <button
+                    type="button"
+                    className="favorite-card-remove-button"
+                    onClick={() => removeFavorite(favorite.id, favorite.mediaType)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              )
+            })}
           </ul>
         )}
       </section>

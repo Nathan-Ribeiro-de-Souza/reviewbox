@@ -1,30 +1,24 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { useFavorites } from '../../hooks/useFavorites'
 import { useReviews } from '../../hooks/useReviews'
+
 import { getMovieCredits, getMovieDetails } from '../../services/tmdbApi'
 
 import type { MovieDetails } from '../../types/ApiTypes'
+import type { AddDetailsReviewsForm } from '../../types/ReviewType'
 
-import { mapToFavorite } from '../../utils/mapToFavorite'
+import { mapToDetailsMovie, mapToFavorite } from '../../utils/mapMovies'
 
 import { ReviewForm } from '../Reviews/components/ReviewForm/ReviewForm'
 import { DetailsReviewList } from '../Reviews/components/DetailsReviewList/DetailsReviewList'
-import { DetailsCard } from './components/DetailsCard/DetailsCard'
+import { MediaDetailsCard } from '../../components/MediaDetailsCard/MediaDetailsCard'
 
 import './DetailsMovie.css'
 
-type CrewMember = {
-  id: number
-  name: string
-  job: string
-}
-
 export function DetailsMovie() {
   const { movieId } = useParams()
-
   const movieIdNumber = Number(movieId)
 
   const { reviews } = useReviews()
@@ -52,9 +46,7 @@ export function DetailsMovie() {
           getMovieCredits(movieIdNumber)
         ])
 
-        const director = (crew as CrewMember[]).find(
-          (person) => person.job === 'Director'
-        )
+        const director = crew.find((person) => person.job === 'Director')
 
         setMovieDetails(details)
         setDirectorName(director?.name ?? '')
@@ -97,16 +89,28 @@ export function DetailsMovie() {
   }
 
   const movieIsFavorite = favorites.some(
-  (favorite) => favorite.id === movieDetails.id
-)
+    (favorite) =>
+      favorite.id === movieDetails.id && favorite.mediaType === 'Movie'
+  )
 
   const movieReviews = reviews.filter(
-    (review) => review.movieId === movieDetails.id
+    (review) =>
+      review.mediaId === movieDetails.id && review.reviewType === 'movies'
   )
+
+  const reviewDetailsMovie: AddDetailsReviewsForm = {
+    mediaId: movieDetails.id,
+    title: movieDetails.title,
+    posterPath: movieDetails.poster_path,
+    releaseDate: movieDetails.release_date,
+    reviewType: 'movies'
+  }
 
   return (
     <main className="details-page">
-      <DetailsCard movie={movieDetails} directorName={directorName} />
+      <MediaDetailsCard
+      mediaDetails={mapToDetailsMovie(movieDetails, directorName)}
+      />
 
       <section className="details-actions">
         <button
@@ -124,7 +128,7 @@ export function DetailsMovie() {
           <h2>Rate this movie</h2>
         </div>
 
-        <ReviewForm movie={movieDetails} />
+        <ReviewForm media={reviewDetailsMovie} />
       </section>
 
       <section className="details-reviews-section">
@@ -135,11 +139,13 @@ export function DetailsMovie() {
 
         {movieReviews.length === 0 ? (
           <p className="details-empty-message">
-            No reviews for this movie yet. <Link to='/catalog' className='details-empty-link'>Click Here for Catalog</Link>
+            No reviews for this movie yet.{' '}
+            <Link to="/catalog" className="details-empty-link">
+              Explore catalog
+            </Link>
           </p>
         ) : (
-          <DetailsReviewList
-           movieReviews={movieReviews} />
+          <DetailsReviewList reviews={movieReviews} />
         )}
       </section>
     </main>

@@ -15,7 +15,6 @@ type CatalogFiltersProps = {
 }
 
 const ratingOptions = [10, 9, 8, 7, 6, 5, 4, 3]
-const currentYear = new Date().getFullYear()
 
 export function CatalogFilters({
   genres,
@@ -24,9 +23,8 @@ export function CatalogFilters({
   selectedYear,
   onGenreChange,
   onRatingChange,
-  onYearChange
+  onYearChange,
 }: CatalogFiltersProps) {
-  
   return (
     <div className="catalog-filters">
       <select value={selectedGenreId ?? ''} onChange={onGenreChange}>
@@ -53,7 +51,7 @@ export function CatalogFilters({
         type="number"
         placeholder="Year"
         min="1887"
-        max={currentYear}
+        max={new Date().getFullYear()}
         value={selectedYear ?? ''}
         onChange={onYearChange}
       />

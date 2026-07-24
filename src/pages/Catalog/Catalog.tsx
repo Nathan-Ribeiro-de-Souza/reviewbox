@@ -3,16 +3,27 @@ import { useEffect, useState, type ChangeEvent } from 'react'
 import { SearchBar } from '../../components/SearchBar/SearchBar'
 import { CatalogFilters } from './components/CatalogFilters/CatalogFilters'
 import { CatalogMovieGrid } from './components/MovieCardsCatalog/CatalogMovieGrid'
+import { CatalogSerieGrid } from './components/SerieCardsCatalog/CatalogSerieGrid'
 
-import { getCatalogMovies, getMovieGenres, searchMovies } from '../../services/tmdbApi'
+import {
+  getCatalogMovies,
+  getCatalogSeries,
+  getMovieGenres,
+  getSeriesGenres,
+  searchMovies,
+  searchSeries,
+} from '../../services/tmdbApi'
 
-import type { Genre, Movie } from '../../types/ApiTypes'
+import type { Genre, Movie, TVSeries } from '../../types/ApiTypes'
 
 import './Catalog.css'
 
 export function Catalog() {
   const [movies, setMovies] = useState<Movie[]>([])
-  const [genres, setGenres] = useState<Genre[]>([])
+  const [series, setSeries] = useState<TVSeries[]>([])
+
+  const [movieGenres, setMovieGenres] = useState<Genre[]>([])
+  const [, setSeriesGenres] = useState<Genre[]>([])
 
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -26,8 +37,13 @@ export function Catalog() {
   useEffect(() => {
     async function loadGenres() {
       try {
-        const genreList = await getMovieGenres()
-        setGenres(genreList)
+        const [movieGenreList, seriesGenreList] = await Promise.all([
+          getMovieGenres(),
+          getSeriesGenres()
+        ])
+
+        setMovieGenres(movieGenreList)
+        setSeriesGenres(seriesGenreList)
       } catch {
         setErrorMessage('Failed to load genres.')
       }
@@ -37,7 +53,7 @@ export function Catalog() {
   }, [])
 
   useEffect(() => {
-    async function loadMovies() {
+    async function loadCatalogResults() {
       try {
         setIsLoading(true)
         setErrorMessage('')
@@ -45,26 +61,39 @@ export function Catalog() {
         const trimmedSearch = searchQuery.trim()
 
         if (trimmedSearch !== '') {
-          const searchedMovies = await searchMovies(trimmedSearch)
+          const [searchedMovies, searchedSeries] = await Promise.all([
+            searchMovies(trimmedSearch),
+            searchSeries(trimmedSearch)
+          ])
+
           setMovies(searchedMovies)
+          setSeries(searchedSeries)
           return
         }
 
-        const catalogMovies = await getCatalogMovies({
-          genreId: selectedGenreId,
-          year: selectedYear,
-          rating: selectedRating
-        })
+        const [catalogMovies, catalogSeries] = await Promise.all([
+          getCatalogMovies({
+            genreId: selectedGenreId,
+            year: selectedYear,
+            rating: selectedRating
+          }),
+          getCatalogSeries({
+            genreId: selectedGenreId,
+            year: selectedYear,
+            rating: selectedRating
+          })
+        ])
 
         setMovies(catalogMovies)
+        setSeries(catalogSeries)
       } catch {
-        setErrorMessage('Failed to load movies.')
+        setErrorMessage('Failed to load catalog results.')
       } finally {
         setIsLoading(false)
       }
     }
 
-    loadMovies()
+    loadCatalogResults()
   }, [searchQuery, selectedGenreId, selectedYear, selectedRating])
 
   function handleGenreChange(event: ChangeEvent<HTMLSelectElement>) {
@@ -85,32 +114,32 @@ export function Catalog() {
     setSelectedYear(value === '' ? null : value)
   }
 
-  function getGenreNamesByIds(genreIds: number[]) {
+  function getMovieGenreNamesByIds(genreIds: number[]) {
     return genreIds
-      .map((id) => genres.find((genre) => genre.id === id)?.name)
+      .map((id) => movieGenres.find((genre) => genre.id === id)?.name)
       .filter(Boolean)
       .join(', ')
   }
 
   const shouldShowEmptyState =
-    !isLoading && !errorMessage && movies.length === 0
+    !isLoading && !errorMessage && movies.length === 0 && series.length === 0
 
-  const shouldShowMovies =
-    !isLoading && !errorMessage && movies.length > 0
+  const shouldShowMovies = !isLoading && !errorMessage && movies.length > 0
+  const shouldShowSeries = !isLoading && !errorMessage && series.length > 0
 
   return (
     <main className="catalog-page">
       <section className="catalog-hero">
         <p className="section-label">Catalog</p>
-        <h1>Find your next movie.</h1>
-        <p>Search, filter and explore movies from TMDB.</p>
+        <h1>Find your next story.</h1>
+        <p>Search, filter and explore movies and series from TMDB.</p>
       </section>
 
       <section className="catalog-controls">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
 
         <CatalogFilters
-          genres={genres}
+          genres={movieGenres}
           selectedGenreId={selectedGenreId}
           selectedRating={selectedRating}
           selectedYear={selectedYear}
@@ -130,14 +159,35 @@ export function Catalog() {
         )}
 
         {shouldShowEmptyState && (
-          <p className="status-message">No movies found.</p>
+          <p className="status-message">No results found.</p>
         )}
 
         {shouldShowMovies && (
-          <CatalogMovieGrid
-            movies={movies}
-            getGenreNamesByIds={getGenreNamesByIds}
-          />
+          <section className="catalog-media-section">
+            <div className="section-header">
+              <p className="section-label">Movies</p>
+              <h2>Movies</h2>
+            </div>
+
+            <CatalogMovieGrid
+              movies={movies}
+              getGenreNamesByIds={getMovieGenreNamesByIds}
+            />
+          </section>
+        )}
+
+        {shouldShowSeries && (
+          <section className="catalog-media-section">
+            <div className="section-header">
+              <p className="section-label">Series</p>
+              <h2>Series</h2>
+            </div>
+
+            <CatalogSerieGrid
+              series={series}
+              getGenreNameByIds={getMovieGenreNamesByIds}
+            />
+          </section>
         )}
       </section>
     </main>

@@ -1,6 +1,10 @@
-import type { Movie } from './ApiTypes'
+export type MediaType = 'Movie' | 'Serie'
 
-export type FavoriteType = Pick<
-  Movie,
-  'id' | 'title' | 'poster_path' | 'release_date' | 'vote_average'
->
+export type FavoriteType = {
+  id: number
+  mediaType: MediaType
+  title: string
+  poster_path: string | null
+  release_date: string
+  vote_average: number
+}

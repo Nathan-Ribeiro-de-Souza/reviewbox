@@ -2,18 +2,16 @@ import { useState, type SubmitEvent } from 'react'
 
 import { StarRating } from '../../../../components/RatingStars/StarRating'
 import { useReviews } from '../../../../hooks/useReviews'
-import { mapToReview } from '../../../../utils/mapToReview'
 
-import type { MovieDetails } from '../../../../types/ApiTypes'
-import type { ReviewType } from '../../../../types/ReviewType'
+import type { AddDetailsReviewsForm, ReviewType } from '../../../../types/ReviewType'
 
 import './ReviewForm.css'
 
 type ReviewFormProps = {
-  movie: MovieDetails
+  media: AddDetailsReviewsForm
 }
 
-export function ReviewForm({ movie }: ReviewFormProps) {
+export function ReviewForm({ media }: ReviewFormProps) {
   const { addReview } = useReviews()
 
   const [reviewText, setReviewText] = useState('')
@@ -34,7 +32,13 @@ export function ReviewForm({ movie }: ReviewFormProps) {
       return
     }
 
-    const newReview = mapToReview(movie, trimmedText, userRating)
+    const newReview: ReviewType = {
+      id: Date.now(),
+      createdAt: new Date().toISOString(),
+      userReview: trimmedText,
+      userRating,
+      ...media
+    }
 
     addReview(newReview)
 
