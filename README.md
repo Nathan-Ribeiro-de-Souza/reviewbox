@@ -1,8 +1,8 @@
 # ReviewBox
 
-ReviewBox is a front-end movie review project built with React and TypeScript, created as part of my learning journey in Front-end development.
+ReviewBox is a front-end movie and series review project built with React and TypeScript, created as part of my learning journey in Front-end development.
 
-The project uses the TMDB API to display movies, search results, movie details, favorites, user reviews, filters, localStorage persistence, and dark/light mode.
+The project uses the TMDB API to display movies, series, search results, details pages, favorites, user reviews, filters, localStorage persistence, and dark/light mode.
 
 This is not a real streaming platform. It is a portfolio and learning project focused on practicing React, TypeScript, component structure, state management, routing, API consumption, reusable hooks, Context API, UI organization, and front-end logic.
 
@@ -14,20 +14,26 @@ This is not a real streaming platform. It is a portfolio and learning project fo
 
 * Home page with popular movies
 * Home page with top rated movies
+* Home page with popular series
+* Home page with top rated series
 * Movie carousel
+* Series carousel
 * Mobile carousel with horizontal scroll
-* Movie catalog
-* Search movies by name
-* Filter movies by genre
-* Filter movies by year
-* Filter movies by rating
+* Movie and series catalog
+* Search movies and series by name
+* Filter catalog by genre
+* Filter catalog by year
+* Filter catalog by rating
 * Movie details page
+* Series details page
 * Movie poster, overview, runtime, genres and rating
+* Series poster, overview, seasons, episodes, genres and rating
 * Movie director information
-* Add movies to favorites
-* Remove movies from favorites
+* Series creator information
+* Add movies and series to favorites
+* Remove movies and series from favorites
 * Favorites persistence with localStorage
-* Add movie reviews
+* Add reviews for movies and series
 * Edit review text
 * Edit review rating
 * Delete reviews
@@ -70,32 +76,11 @@ While building this project, I practiced important Front-end concepts such as:
 * Creating favorite logic
 * Creating review logic
 * Editing and deleting items from arrays
+* Working with different API data formats for movies and series
 * Improving responsive layouts
 * Building dark and light themes
 * Organizing a React project structure
 * Separating pages, components, contexts, hooks, services, types and utils
-
-## Future Improvements
-
-In the future, I plan to improve this project by adding new sections and more complete features, such as:
-
-* Series catalog
-* Series details page
-* Series reviews
-* Anime catalog
-* Anime details page
-* Anime reviews
-* Separate filters for movies, series and animes
-* Better review organization by content type
-* User profile page
-* Back-end integration
-* User authentication
-* Database persistence
-* Real user accounts
-* Personal watchlist
-* Review likes or reactions
-
-My goal is to keep improving this project as I learn more Front-end and Back-end development, turning it into a more complete Full Stack application in the future.
 
 ## Installation
 
