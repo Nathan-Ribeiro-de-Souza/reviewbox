@@ -4,8 +4,9 @@ import type { MediaDetailsType } from '../types/MediaDetailsType'
 
 export function mapSeriesToFavorite(series: TVSeriesDetails): FavoriteType {
   return {
+    mediaId: 0,
     id: series.id,
-    mediaType: 'Serie',
+    mediaType: 'series',
     title: series.name,
     poster_path: series.poster_path,
     release_date: series.first_air_date,

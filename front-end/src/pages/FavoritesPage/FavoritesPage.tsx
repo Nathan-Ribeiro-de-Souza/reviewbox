@@ -32,7 +32,7 @@ export function FavoritesPage() {
           <ul className="favorites-grid">
             {favorites.map((favorite) => {
               const detailsPath =
-                favorite.mediaType === 'Serie'
+                favorite.mediaType === 'series'
                   ? `/detailsSerie/${favorite.id}`
                   : `/detailsMovie/${favorite.id}`
 
@@ -68,7 +68,7 @@ export function FavoritesPage() {
                   <button
                     type="button"
                     className="favorite-card-remove-button"
-                    onClick={() => removeFavorite(favorite.id, favorite.mediaType)}
+                    onClick={() => removeFavorite(favorite.id)}
                   >
                     Remove
                   </button>

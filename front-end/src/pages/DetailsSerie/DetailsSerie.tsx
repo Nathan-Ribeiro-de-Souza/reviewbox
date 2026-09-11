@@ -85,7 +85,7 @@ export function DetailsSeries() {
 
   const seriesIsFavorite = favorites.some(
     (favorite) =>
-      favorite.id === seriesDetails.id && favorite.mediaType === 'Serie'
+      favorite.id === seriesDetails.id && favorite.mediaType === 'series'
   )
 
   const seriesReviews = reviews.filter(
