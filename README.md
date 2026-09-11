@@ -4,7 +4,7 @@ A full-stack movie and series review platform where users can create accounts, l
 
 ## Live Demo
 
-[Open ReviewBox](https://reviewbox-front-end-muvr.vercel.app/)
+[Open ReviewBox](reviewbox-front-end-mu.vercel.app)
 
 ## Features
 
