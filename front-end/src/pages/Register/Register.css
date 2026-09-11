@@ -1,0 +1,215 @@
+.register-page {
+  min-height: calc(100vh - 58px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 24px;
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      var(--color-primary-soft),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 90%,
+      var(--color-primary-soft),
+      transparent 35%
+    ),
+    var(--color-background);
+}
+
+.register-content {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-label {
+  margin-bottom: 16px;
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.register-card {
+  width: 100%;
+  padding: 42px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.register-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.register-header h1 {
+  margin-bottom: 10px;
+  color: var(--color-text);
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.register-header p {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.register-form > label {
+  margin-top: 8px;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.register-form input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  outline: none;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.register-form input::placeholder {
+  color: var(--color-muted);
+}
+
+.register-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.register-submit {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.register-submit:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.register-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 30px 0 18px;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.register-social-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.register-social-buttons button {
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface-soft);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.register-social-buttons button:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.register-login {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 28px;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.register-login button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.register-error {
+  margin: 4px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--color-danger);
+  border-radius: 8px;
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  font-size: 0.85rem;
+}
+
+.register-success {
+  margin: 4px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+}
+
+.register-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 600px) {
+  .register-page {
+    padding: 40px 16px;
+  }
+
+  .register-card {
+    padding: 28px 22px;
+  }
+
+  .register-header h1 {
+    font-size: 1.75rem;
+  }
+}
