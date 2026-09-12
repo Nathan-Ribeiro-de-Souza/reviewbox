@@ -92,3 +92,24 @@ export async function editReview(
 
   return result.rows[0]
 }
+
+export async function getReviewsByMedia(mediaId, mediaType) {
+  const result = await database.query(`
+    SELECT
+      id,
+      media_id AS "mediaId",
+      rating AS "userRating",
+      comment AS "userReview",
+      created_at AS "createdAt",
+      media_type AS "reviewType"
+    FROM reviews
+    WHERE media_id = $1
+      AND media_type = $2
+    ORDER BY created_at DESC
+  `, [
+    mediaId,
+    mediaType
+  ])
+
+  return result.rows
+}

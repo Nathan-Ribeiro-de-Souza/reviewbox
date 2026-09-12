@@ -172,3 +172,19 @@ export async function deleteFavorite(favoriteId: number) {
 
   return parseResponse(response)
 }
+
+export async function getReviewsByMedia(
+  mediaId: number,
+  mediaType: string
+) {
+  const response = await fetch(
+    `${API_URL}/reviews/media/${mediaId}/${mediaType}`,
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    }
+  )
+
+  return parseResponse(response)
+}

@@ -2,7 +2,8 @@ import {
   deleteReview,
   editReview,
   getReviews,
-  postReviews
+  postReviews,
+  getReviewsByMedia
 } from '../repositories/reviews.repository.js'
 
 import {
@@ -121,4 +122,19 @@ export async function serviceEditReview(
   }
 
   return review
+}
+
+export async function serviceGetReviewsByMedia(
+  mediaId,
+  mediaType
+) {
+  if (!Number.isInteger(mediaId) || mediaId <= 0) {
+    throw new ValidationError('Invalid media id')
+  }
+
+  if (mediaType !== 'movies' && mediaType !== 'series') {
+    throw new ValidationError('Invalid media type')
+  }
+
+  return getReviewsByMedia(mediaId, mediaType)
 }

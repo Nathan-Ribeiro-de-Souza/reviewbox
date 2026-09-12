@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { useFavorites } from '../../hooks/useFavorites'
-import { useReviews } from '../../hooks/useReviews'
 
 import { getMovieCredits, getMovieDetails } from '../../services/tmdbApi'
 
 import type { MovieDetails } from '../../types/ApiTypes'
-import type { AddDetailsReviewsForm } from '../../types/ReviewType'
+import type { AddDetailsReviewsForm, ReviewType } from '../../types/ReviewType'
 
 import { mapToDetailsMovie, mapToFavorite } from '../../utils/mapMovies'
 
@@ -15,50 +14,64 @@ import { ReviewForm } from '../Reviews/components/ReviewForm/ReviewForm'
 import { DetailsReviewList } from '../Reviews/components/DetailsReviewList/DetailsReviewList'
 import { MediaDetailsCard } from '../../components/MediaDetailsCard/MediaDetailsCard'
 
+import { getReviewsByMedia } from '../../services/api'
+
 import './DetailsMovie.css'
 
 export function DetailsMovie() {
   const { movieId } = useParams()
   const movieIdNumber = Number(movieId)
 
-  const { reviews } = useReviews()
   const { addFavorite, isFavorite} = useFavorites()
 
   const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null)
+  const [movieReviews, setMovieReviews] = useState<ReviewType[]>([])
   const [directorName, setDirectorName] = useState('')
 
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    async function loadMovieData() {
-      if (!movieIdNumber) {
-        setErrorMessage('Invalid movie ID.')
-        return
-      }
-
-      try {
-        setIsLoading(true)
-        setErrorMessage('')
-
-        const [details, crew] = await Promise.all([
-          getMovieDetails(movieIdNumber),
-          getMovieCredits(movieIdNumber)
-        ])
-
-        const director = crew.find((person) => person.job === 'Director')
-
-        setMovieDetails(details)
-        setDirectorName(director?.name ?? '')
-      } catch {
-        setErrorMessage('Failed to load movie details.')
-      } finally {
-        setIsLoading(false)
-      }
+  async function loadMovieData() {
+    if (!movieIdNumber) {
+      setErrorMessage('Invalid movie ID.')
+      return
     }
 
-    loadMovieData()
-  }, [movieIdNumber])
+    try {
+      setIsLoading(true)
+      setErrorMessage('')
+
+      const [details, crew, reviews] = await Promise.all([
+        getMovieDetails(movieIdNumber),
+        getMovieCredits(movieIdNumber),
+        getReviewsByMedia(movieIdNumber, 'movies')
+      ])
+
+      const director = crew.find(
+        (person) => person.job === 'Director'
+      )
+
+      setMovieDetails(details)
+      setDirectorName(director?.name ?? '')
+
+      setMovieReviews(
+        reviews.map((review: ReviewType) => ({
+          ...review,
+          title: details.title,
+          posterPath: details.poster_path,
+          releaseDate: details.release_date
+        }))
+      )
+    } catch {
+      setErrorMessage('Failed to load movie details.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  loadMovieData()
+}, [movieIdNumber])
 
   function handleAddFavorite() {
     if (!movieDetails) return
@@ -87,12 +100,6 @@ export function DetailsMovie() {
   if (!movieDetails) {
     return null
   }
-
-  const movieReviews = reviews.filter(
-    (review) =>
-      review.mediaId === movieDetails.id &&
-      review.reviewType === 'movies'
-  )
 
   const movieIsFavorite = isFavorite(movieDetails.id, 'movies')
 

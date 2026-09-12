@@ -6,7 +6,8 @@ import {
   controllerDeleteReviews,
   controllerGetReviews,
   controllerPatchReviews,
-  controllerPostReviews
+  controllerPostReviews,
+  controllerGetReviewsByMedia
 } from '../controllers/reviews.controller.js'
 
 const router = Router()
@@ -17,5 +18,6 @@ router.get('/reviews', controllerGetReviews)
 router.post('/reviews', controllerPostReviews)
 router.delete('/reviews/:id', controllerDeleteReviews)
 router.patch('/reviews/:id', controllerPatchReviews)
+router.get('/reviews/media/:mediaId/:mediaType', controllerGetReviewsByMedia)
 
 export default router

@@ -2,7 +2,8 @@ import {
   serviceDeleteReviews,
   serviceEditReview,
   serviceGetReviews,
-  servicePostReviews
+  servicePostReviews,
+  serviceGetReviewsByMedia
 } from '../services/reviews.service.js'
 
 export async function controllerGetReviews(req, res) {
@@ -63,4 +64,16 @@ export async function controllerPatchReviews(req, res) {
   )
 
   return res.status(200).json(review)
+}
+
+export async function controllerGetReviewsByMedia(req, res) {
+  const mediaId = Number(req.params.mediaId)
+  const mediaType = req.params.mediaType
+
+  const reviews = await serviceGetReviewsByMedia(
+    mediaId,
+    mediaType
+  )
+
+  return res.status(200).json(reviews)
 }
