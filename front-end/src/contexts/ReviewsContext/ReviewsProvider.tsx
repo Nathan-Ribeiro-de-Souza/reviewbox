@@ -61,6 +61,8 @@ export function ReviewsProvider({ children }: ReviewsProviderProps) {
       }
 
       setReviews((prev) => [...prev, completeReview])
+      
+      return completeReview
     } catch (error) {
       if (
         error instanceof Error &&

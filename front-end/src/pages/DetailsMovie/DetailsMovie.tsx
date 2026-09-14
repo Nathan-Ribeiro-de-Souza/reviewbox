@@ -60,7 +60,7 @@ export function DetailsMovie() {
           ...review,
           title: details.title,
           posterPath: details.poster_path,
-          releaseDate: details.release_date
+          releaseDate: details.release_date,
         }))
       )
     } catch {
@@ -72,6 +72,35 @@ export function DetailsMovie() {
 
   loadMovieData()
 }, [movieIdNumber])
+
+function handleReviewAdded(review: ReviewType) {
+  setMovieReviews((prev) => [{
+    ...review,
+    title: movieDetails!.title,
+    posterPath: movieDetails!.poster_path,
+    releaseDate: movieDetails!.release_date
+  }, ...prev])
+}
+
+function handleReviewUpdated(reviewId: number, newText: string, newRating: number) {
+  setMovieReviews((prev) =>
+    prev.map((review) =>
+      review.id === reviewId
+        ? {
+            ...review,
+            userReview: newText,
+            userRating: newRating
+          }
+        : review
+    )
+  )
+}
+
+function handleReviewDeleted(reviewId: number) {
+  setMovieReviews((prev) =>
+    prev.filter((review) => review.id !== reviewId)
+  )
+}
 
   function handleAddFavorite() {
     if (!movieDetails) return
@@ -133,7 +162,7 @@ export function DetailsMovie() {
           <h2>Rate this movie</h2>
         </div>
 
-        <ReviewForm media={reviewDetailsMovie} />
+        <ReviewForm media={reviewDetailsMovie} onReviewAdded={handleReviewAdded} />
       </section>
 
       <section className="details-reviews-section">
@@ -150,7 +179,11 @@ export function DetailsMovie() {
             </Link>
           </p>
         ) : (
-          <DetailsReviewList reviews={movieReviews} />
+          <DetailsReviewList 
+          reviews={movieReviews}
+          onReviewUpdated={handleReviewUpdated}
+          onReviewDeleted={handleReviewDeleted}
+           />
         )}
       </section>
     </main>

@@ -48,6 +48,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     logout()
   }
 
+  function updateUser(updatedUser: Partial<User>) {
+  setUser((prev) => {
+    if (!prev) return prev
+
+    const newUser = {
+      ...prev,
+      ...updatedUser
+    }
+
+    localStorage.setItem('user', JSON.stringify(newUser))
+
+    return newUser
+  })
+}
+
   return (
     <AuthContext.Provider
       value={{
@@ -56,7 +71,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isAuthenticated,
         login,
         logout,
-        handleExpiredToken
+        handleExpiredToken,
+        updateUser
       }}
     >
       {children}

@@ -11,9 +11,10 @@ import { type CreateReview } from '../../../../types/ReviewType'
 
 type ReviewFormProps = {
   media: AddDetailsReviewsForm
+  onReviewAdded: (review: ReviewType) => void
 }
 
-export function ReviewForm({ media }: ReviewFormProps) {
+export function ReviewForm({ media, onReviewAdded }: ReviewFormProps) {
   const { addReview } = useReviews()
 
   const [reviewText, setReviewText] = useState('')
@@ -22,7 +23,7 @@ export function ReviewForm({ media }: ReviewFormProps) {
   const {isAuthenticated} = useAuth()
   const navigate = useNavigate()
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
     if(!isAuthenticated){
@@ -50,7 +51,9 @@ export function ReviewForm({ media }: ReviewFormProps) {
       ...media
     }
 
-    addReview(newReview)
+    const createdReview = await addReview(newReview)
+
+    onReviewAdded(createdReview)
 
     setReviewText('')
     setUserRating(0)

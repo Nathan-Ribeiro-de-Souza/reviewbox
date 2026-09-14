@@ -35,7 +35,7 @@ export async function postReviews(
     VALUES ($1, $2, $3, $4, $5)
     RETURNING
       id,
-      user_id,
+      user_id AS "userId",
       media_id AS "mediaId",
       rating AS "userRating",
       comment AS "userReview",
@@ -49,7 +49,19 @@ export async function postReviews(
     mediaType
   ])
 
-  return result.rows[0]
+  const review =result.rows[0]
+
+  const userResult = await database.query(`
+    SELECT
+      name AS "userName"
+    FROM users
+    WHERE id = $1
+  `, [userId])
+
+  return {
+    ...review,
+    userName: userResult.rows[0]?.userName
+  }
 }
 
 export async function deleteReview(reviewId, userId) {
@@ -96,16 +108,20 @@ export async function editReview(
 export async function getReviewsByMedia(mediaId, mediaType) {
   const result = await database.query(`
     SELECT
-      id,
-      media_id AS "mediaId",
-      rating AS "userRating",
-      comment AS "userReview",
-      created_at AS "createdAt",
-      media_type AS "reviewType"
+      reviews.id,
+      reviews.media_id AS "mediaId",
+      reviews.rating AS "userRating",
+      reviews.comment AS "userReview",
+      reviews.created_at AS "createdAt",
+      reviews.media_type AS "reviewType",
+      users.id AS "userId",
+      users.name AS "userName"
     FROM reviews
-    WHERE media_id = $1
-      AND media_type = $2
-    ORDER BY created_at DESC
+    JOIN users
+    ON users.id = reviews.user_id
+    WHERE reviews.media_id = $1
+      AND reviews.media_type = $2
+    ORDER BY reviews.created_at DESC
   `, [
     mediaId,
     mediaType

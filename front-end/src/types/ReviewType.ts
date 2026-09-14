@@ -1,5 +1,7 @@
 export type ReviewType = {
   id: number
+  userId?: number
+  userName?: string
   mediaId: number
   title: string
   userReview: string

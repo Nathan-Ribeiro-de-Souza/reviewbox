@@ -13,6 +13,7 @@ export type AuthContextType = {
   login: (token: string, user: User) => void
   logout: () => void
   handleExpiredToken: () => void
+  updateUser: (updatedUser: Partial<User>) => void
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)

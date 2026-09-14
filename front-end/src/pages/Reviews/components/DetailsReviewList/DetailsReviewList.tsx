@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { StarRating } from '../../../../components/RatingStars/StarRating'
 import { useReviews } from '../../../../hooks/useReviews'
+import { useAuth } from '../../../../hooks/useAuth'
+
 import { formatReviewDate } from '../../../../utils/formatters'
+import { getAvatarColor, getInitial } from '../../../../utils/avatar'
 
 import type { ReviewType } from '../../../../types/ReviewType'
 
@@ -10,10 +14,17 @@ import './DetailsReviewList.css'
 
 type DetailsReviewListProps = {
   reviews: ReviewType[]
+  onReviewUpdated: (
+    reviewId: number,
+    newText: string,
+    newRating: number
+  ) => void
+  onReviewDeleted: (reviewId: number) => void
 }
 
-export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
+export function DetailsReviewList({ reviews, onReviewUpdated, onReviewDeleted }: DetailsReviewListProps) {
   const { removeReview, editReview } = useReviews()
+  const { user } = useAuth()
 
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null)
   const [editedText, setEditedText] = useState('')
@@ -31,7 +42,7 @@ export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
     setEditRating(0)
   }
 
-  function handleSaveEdit(reviewId: number) {
+ async function handleSaveEdit(reviewId: number) {
     const trimmedText = editedText.trim()
 
     if (trimmedText.length < 3) {
@@ -39,7 +50,11 @@ export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
       return
     }
 
-    editReview(reviewId, trimmedText, editRating)
+    await editReview(reviewId, trimmedText, editRating)
+
+    onReviewUpdated(reviewId, trimmedText, editRating)
+
+
     setEditingReviewId(null)
     setEditedText('')
     setEditRating(0)
@@ -48,17 +63,51 @@ export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
   return (
     <div className="details-review-list">
       {reviews.map((review) => {
+        const isOwner = user?.id === review.userId
         const isEditing = editingReviewId === review.id
+        const avatarColor = review.userId
+          ? getAvatarColor(review.userId)
+          : undefined
+        const initial = review.userName
+          ? getInitial(review.userName)
+          : '?'
 
         return (
           <article key={review.id} className="details-review-card">
             <div className="details-review-card-header">
+              {review.userName && review.userId ? (
+                <Link
+                  to={`/profile/${review.userId}`}
+                  className="details-review-author"
+                >
+                  <div
+                    className="details-review-avatar"
+                    style={{ backgroundColor: avatarColor }}
+                  >
+                    {initial}
+                  </div>
+
+                  <strong>{review.userName}</strong>
+                </Link>
+              ) : (
+                <div className="details-review-author">
+                  <div className="details-review-avatar">
+                    {initial}
+                  </div>
+
+                  <strong>{review.userName ?? 'Unknown user'}</strong>
+                </div>
+              )}
+
               <span>{formatReviewDate(review.createdAt)}</span>
             </div>
 
             {isEditing ? (
               <div className="details-review-edit">
-                <StarRating value={editRating} onChange={setEditRating} />
+                <StarRating
+                  value={editRating}
+                  onChange={setEditRating}
+                />
 
                 <textarea
                   value={editedText}
@@ -86,9 +135,16 @@ export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
               </div>
             ) : (
               <>
-                <StarRating value={review.userRating} readOnly />
+                <StarRating
+                  value={review.userRating}
+                  readOnly
+                />
 
-                <p className="details-review-text">{review.userReview}</p>
+                <p className="details-review-text">
+                  {review.userReview}
+                </p>
+
+                {isOwner && (
 
                 <div className="details-review-actions">
                   <button
@@ -102,11 +158,15 @@ export function DetailsReviewList({ reviews }: DetailsReviewListProps) {
                   <button
                     type="button"
                     className="review-delete-button"
-                    onClick={() => removeReview(review.id)}
+                    onClick={async () => {
+                      await removeReview(review.id)
+                      onReviewDeleted(review.id)
+                    }}
                   >
                     Delete
                   </button>
                 </div>
+               )}
               </>
             )}
           </article>

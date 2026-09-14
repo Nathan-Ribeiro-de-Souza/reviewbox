@@ -5,6 +5,8 @@ import { patchNameUser, userProfile } from '../../services/api'
 import { useAuth } from '../../hooks/useAuth'
 import { useTheme } from '../../hooks/useTheme'
 
+import {getAvatarColor, getInitial} from '../../utils/avatar'
+
 import './Profile.css'
 
 type ProfileType = {
@@ -13,25 +15,6 @@ type ProfileType = {
   email: string
   createdAt: string
   reviewCount: number
-}
-
-const avatarColors = [
-  '#7C3AED',
-  '#2563EB',
-  '#0F766E',
-  '#DB2777',
-  '#EA580C',
-  '#CA8A04',
-  '#059669',
-  '#4F46E5'
-]
-
-function getAvatarColor(userId: number) {
-  return avatarColors[userId % avatarColors.length]
-}
-
-function getInitial(name: string) {
-  return name.trim().charAt(0).toUpperCase()
 }
 
 function formatDate(date: string) {
@@ -48,7 +31,7 @@ export function Profile() {
   const [newName, setNewName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
-  const { logout, handleExpiredToken } = useAuth()
+  const { logout, handleExpiredToken, updateUser } = useAuth()
   const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
@@ -100,6 +83,8 @@ export function Profile() {
         name: updatedName
       }
     })
+
+    updateUser({ name: updatedName })
 
     setIsEditingName(false)
   }
