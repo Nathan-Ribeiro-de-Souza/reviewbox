@@ -3,7 +3,8 @@ import { Router } from 'express'
 import {
   controllerProfile,
   controllerUserLogin,
-  controllerUserRegister
+  controllerUserRegister,
+  controllerUpdateUserName
 } from '../controllers/user.controller.js'
 
 import { authMiddleware } from '../middlewares/auth.middleware.js'
@@ -16,5 +17,6 @@ router.post('/login', controllerUserLogin)
 router.use(authMiddleware)
 
 router.get('/users/me', controllerProfile)
+router.patch('/users/me', controllerUpdateUserName)
 
 export default router

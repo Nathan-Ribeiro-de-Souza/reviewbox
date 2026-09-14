@@ -46,3 +46,14 @@ export async function getUserProfile(userId) {
 
   return result.rows[0]
 }
+
+export async function updateUserName(userId, name) {
+  const result = await database.query(`
+    UPDATE users
+    SET name = $1
+    WHERE id = $2
+    RETURNING name
+  `, [name, userId])
+
+  return result.rows[0]
+}

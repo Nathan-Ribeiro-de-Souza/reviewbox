@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { userProfile } from '../../services/api'
+import { patchNameUser, userProfile } from '../../services/api'
 
 import { useAuth } from '../../hooks/useAuth'
 import { useTheme } from '../../hooks/useTheme'
@@ -44,6 +44,8 @@ function formatDate(date: string) {
 
 export function Profile() {
   const [profile, setProfile] = useState<ProfileType | null>(null)
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [newName, setNewName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
   const { logout, handleExpiredToken } = useAuth()
@@ -87,6 +89,28 @@ export function Profile() {
     return null
   }
 
+  async function handleEditName() {
+    const updatedName = await patchNameUser(newName)
+
+    setProfile((prev) => {
+      if (!prev) return prev
+
+      return {
+        ...prev,
+        name: updatedName
+      }
+    })
+
+    setIsEditingName(false)
+  }
+
+  function handleStartEditing() {
+  if (!profile) return
+
+  setNewName(profile.name)
+  setIsEditingName(true)
+}
+
   const avatarColor = getAvatarColor(profile.id)
 
   return (
@@ -102,7 +126,40 @@ export function Profile() {
         <div className="profile-identity">
           <span className="profile-label">PROFILE</span>
 
-          <h1>{profile.name}</h1>
+          <div className="profile-name-row">
+            {isEditingName ? (
+              <input
+                className="profile-name-input"
+                type="text"
+                value={newName}
+                onChange={(event) => setNewName(event.target.value)}
+              />
+            ) : (
+              <h1>{profile.name}</h1>
+            )}
+
+            {isEditingName ? (
+              <button
+                type="button"
+                className="profile-edit-name-button"
+                onClick={handleEditName}
+                aria-label="Save name"
+                title="Save name"
+              >
+                ✅
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="profile-edit-name-button"
+                onClick={handleStartEditing}
+                aria-label="Edit name"
+                title="Edit name"
+              >
+                ✏️
+              </button>
+            )}
+          </div>
 
           <p>{profile.email}</p>
         </div>

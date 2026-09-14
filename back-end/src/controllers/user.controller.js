@@ -1,5 +1,6 @@
 import {
   serviceProfile,
+  serviceUpdateUserName,
   serviceUserLogin,
   serviceUserRegister
 } from '../services/user.service.js'
@@ -64,4 +65,16 @@ export async function controllerProfile(
   } catch (error) {
     next(error)
   }
+}
+
+export async function controllerUpdateUserName(req, res) {
+  const userId = req.user.user_id
+  const { name } = req.body
+
+  const updatedName = await serviceUpdateUserName(
+    userId,
+    name
+  )
+
+  return res.status(201).json(updatedName)
 }

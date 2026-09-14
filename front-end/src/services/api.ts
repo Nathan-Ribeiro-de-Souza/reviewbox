@@ -188,3 +188,16 @@ export async function getReviewsByMedia(
 
   return parseResponse(response)
 }
+
+export async function patchNameUser(newName: string) {
+  const response = await fetch(`${API_URL}/users/me`, {
+    method: 'PATCH',
+    headers: {
+      authorization: `Bearer ${getToken()}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name: newName })
+  })
+
+  return parseResponse(response)
+}

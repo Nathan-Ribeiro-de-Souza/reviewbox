@@ -4,13 +4,16 @@ import jwt from 'jsonwebtoken'
 import {
   ConflictError,
   UnauthorizedError,
-  ValidationError
+  ValidationError,
+  NotFoundError
 } from '../errors/errors.js'
+
 
 import {
   findUserByEmail,
   getUserProfile,
-  registerUser
+  registerUser,
+  updateUserName
 } from '../repositories/user.repository.js'
 
 export async function serviceUserRegister(
@@ -112,4 +115,21 @@ export async function serviceUserLogin(
 
 export async function serviceProfile(userId) {
   return getUserProfile(userId)
+}
+
+export async function serviceUpdateUserName(userId, name) {
+  if (typeof name !== 'string' || name.trim() === '') {
+    throw new ValidationError('Name is required')
+  }
+
+  const updatedUser = await updateUserName(
+    userId,
+    name.trim()
+  )
+
+  if (!updatedUser) {
+    throw new NotFoundError('User not found')
+  }
+
+  return updatedUser.name
 }
