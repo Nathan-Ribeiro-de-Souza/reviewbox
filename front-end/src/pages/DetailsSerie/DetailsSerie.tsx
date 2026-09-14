@@ -121,7 +121,7 @@ export function DetailsSeries() {
           <h2>Rate this series</h2>
         </div>
 
-        <ReviewForm media={reviewDetailsSerie} />
+        <ReviewForm media={reviewDetailsSerie} onReviewAdded={() => {}}/>
       </section>
 
       <section className="details-reviews-section">
@@ -138,7 +138,11 @@ export function DetailsSeries() {
             </Link>
           </p>
         ) : (
-          <DetailsReviewList reviews={seriesReviews} />
+          <DetailsReviewList 
+          reviews={seriesReviews}
+          onReviewUpdated={() => {}}
+          onReviewDeleted={() => {}}
+           />
         )}
       </section>
     </main>
