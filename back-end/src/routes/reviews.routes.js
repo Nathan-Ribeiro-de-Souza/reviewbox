@@ -14,7 +14,7 @@ const router = Router()
 
 router.get('/reviews/media/:mediaId/:mediaType', controllerGetReviewsByMedia)
 
-router.use(authMiddleware)
+router.use('/reviews', authMiddleware)
 
 router.get('/reviews', controllerGetReviews)
 router.post('/reviews', controllerPostReviews)

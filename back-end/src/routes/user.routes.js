@@ -14,7 +14,7 @@ const router = Router()
 router.post('/users', controllerUserRegister)
 router.post('/login', controllerUserLogin)
 
-router.use(authMiddleware)
+router.use('/users', authMiddleware)
 
 router.get('/users/me', controllerProfile)
 router.patch('/users/me', controllerUpdateUserName)
