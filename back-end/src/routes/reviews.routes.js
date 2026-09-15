@@ -12,12 +12,13 @@ import {
 
 const router = Router()
 
+router.get('/reviews/media/:mediaId/:mediaType', controllerGetReviewsByMedia)
+
 router.use(authMiddleware)
 
 router.get('/reviews', controllerGetReviews)
 router.post('/reviews', controllerPostReviews)
 router.delete('/reviews/:id', controllerDeleteReviews)
 router.patch('/reviews/:id', controllerPatchReviews)
-router.get('/reviews/media/:mediaId/:mediaType', controllerGetReviewsByMedia)
 
 export default router

@@ -178,12 +178,7 @@ export async function getReviewsByMedia(
   mediaType: string
 ) {
   const response = await fetch(
-    `${API_URL}/reviews/media/${mediaId}/${mediaType}`,
-    {
-      headers: {
-        Authorization: `Bearer ${getToken()}`
-      }
-    }
+    `${API_URL}/reviews/media/${mediaId}/${mediaType}`
   )
 
   return parseResponse(response)

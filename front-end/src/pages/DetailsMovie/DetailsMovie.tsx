@@ -183,7 +183,7 @@ function handleReviewDeleted(reviewId: number) {
           reviews={movieReviews}
           onReviewUpdated={handleReviewUpdated}
           onReviewDeleted={handleReviewDeleted}
-           />
+          />
         )}
       </section>
     </main>

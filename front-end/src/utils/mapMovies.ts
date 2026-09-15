@@ -24,7 +24,7 @@ export function mapToDetailsMovie(MovieDetail: MovieDetails, director: string): 
       releaseDate: MovieDetail.release_date,
       genres: MovieDetail.genres,
       metaItems: [
-        {label: 'Runtime', value: MovieDetail.runtime},
+        {label: 'Runtime', value: `${MovieDetail.runtime} minutes`}, 
         {label: 'Director', value: director}
       ]
   }
