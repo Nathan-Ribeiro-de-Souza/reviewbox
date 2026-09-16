@@ -1,6 +1,6 @@
 # ReviewBox
 
-A full-stack movie and series review platform where users can create accounts, log in, save favorites, and share reviews with the community.
+A full-stack movie and series review platform where users can create accounts, log in, save favorites, share reviews, and interact with the community.
 
 ## Live Demo
 
@@ -11,12 +11,15 @@ A full-stack movie and series review platform where users can create accounts, l
 - User registration and login
 - JWT-based authentication
 - Protected routes
-- Create and manage movie reviews
+- Create, edit, and delete movie reviews
+- Community reviews
 - Favorites system
-- User profile
+- Personal user profile
+- Public user profiles
+- Edit personal profile name
 - Movie and series catalog
 - Search and filtering
-- Loading and error states
+- Loading, error, and empty states
 - Responsive interface
 - Persistent data with PostgreSQL
 
@@ -99,7 +102,7 @@ The application uses JWT authentication.
 
 ## Database
 
-The application uses PostgreSQL with relationships between users, reviews and favorites.
+The application uses PostgreSQL with relationships between users, reviews, and favorites.
 
 Main entities:
 
@@ -137,49 +140,51 @@ Main entities:
 ## Project Structure
 
     front-end/
-    ├── src/
-    │   ├── components/
-    │   ├── contexts/
-    │   ├── hooks/
-    │   ├── pages/
-    │   ├── services/
-    │   ├── types/
-    │   └── utils/
+    └── src/
+        ├── components/
+        ├── contexts/
+        ├── hooks/
+        ├── pages/
+        ├── services/
+        ├── types/
+        └── utils/
 
     back-end/
-    ├── src/
-    │   ├── controllers/
-    │   ├── errors/
-    │   ├── middlewares/
-    │   ├── repositories/
-    │   ├── routes/
-    │   ├── services/
-    │   ├── app.js
-    │   ├── database.js
-    │   └── server.js
+    └── src/
+        ├── controllers/
+        ├── errors/
+        ├── middlewares/
+        ├── repositories/
+        ├── routes/
+        ├── services/
+        ├── app.js
+        ├── database.js
+        └── server.js
 
 ## What I Learned
 
 This project was developed as a full-stack learning project, focusing on:
 
 - React and TypeScript
+- State management with Context API
+- React Router
 - REST API integration
 - Authentication and authorization
+- JWT and middleware
 - Backend architecture
 - PostgreSQL and SQL
 - CRUD operations
 - Error handling
 - Git and GitHub
-- Deploying a full-stack application
+- Debugging
+- Frontend and backend integration
+- Full-stack deployment
 
 ## Future Improvements
 
-- Password recovery
 - Social login
-- Profile editing
 - Full series support in the backend
-- Additional authentication features
 
 ## Author
 
-👩🏻‍💻Nathan Ribeiro de Souza
+**Nathan Ribeiro de Souza**
