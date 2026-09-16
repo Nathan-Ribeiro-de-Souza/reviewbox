@@ -183,7 +183,6 @@ This project was developed as a full-stack learning project, focusing on:
 ## Future Improvements
 
 - Social login
-- Full series support in the backend
 
 ## Author
 
