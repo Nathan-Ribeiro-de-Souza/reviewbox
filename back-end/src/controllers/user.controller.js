@@ -2,7 +2,8 @@ import {
   serviceProfile,
   serviceUpdateUserName,
   serviceUserLogin,
-  serviceUserRegister
+  serviceUserRegister,
+  serviceGetProfileById
 } from '../services/user.service.js'
 
 export async function controllerUserRegister(
@@ -77,4 +78,12 @@ export async function controllerUpdateUserName(req, res) {
   )
 
   return res.status(201).json(updatedName)
+}
+
+export async function controllerGetProfileById(req, res) {
+  const { userId } = req.params
+
+  const profile = await serviceGetProfileById(userId)
+
+  return res.status(200).json(profile)
 }

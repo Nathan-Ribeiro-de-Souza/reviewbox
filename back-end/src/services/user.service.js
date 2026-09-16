@@ -13,7 +13,8 @@ import {
   findUserByEmail,
   getUserProfile,
   registerUser,
-  updateUserName
+  updateUserName,
+  getUserById
 } from '../repositories/user.repository.js'
 
 export async function serviceUserRegister(
@@ -132,4 +133,20 @@ export async function serviceUpdateUserName(userId, name) {
   }
 
   return updatedUser.name
+}
+
+export async function serviceGetProfileById(userId) {
+  const userIdNumber = Number(userId)
+
+  if (isNaN(userIdNumber)) {
+    throw new ValidationError('Invalid user ID')
+  }
+
+  const profile = await getUserById(userIdNumber)
+
+  if (!profile) {
+    throw new NotFoundError('User not found')
+  }
+
+  return profile
 }

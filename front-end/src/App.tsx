@@ -35,6 +35,7 @@ function App() {
               <Route path="/detailsSerie/:serieId" element={<DetailsSeries />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />}/>
+              <Route path="/profile/:userId" element={<Profile />} />
               
               <Route element={<ProtectedRoute />}>
               <Route path="/reviews" element={<ReviewsPage />} />

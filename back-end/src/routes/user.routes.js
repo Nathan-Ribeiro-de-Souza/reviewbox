@@ -4,7 +4,8 @@ import {
   controllerProfile,
   controllerUserLogin,
   controllerUserRegister,
-  controllerUpdateUserName
+  controllerUpdateUserName,
+  controllerGetProfileById
 } from '../controllers/user.controller.js'
 
 import { authMiddleware } from '../middlewares/auth.middleware.js'
@@ -14,9 +15,9 @@ const router = Router()
 router.post('/users', controllerUserRegister)
 router.post('/login', controllerUserLogin)
 
-router.use('/users', authMiddleware)
+router.get('/users/me', authMiddleware, controllerProfile)
+router.patch('/users/me', authMiddleware, controllerUpdateUserName)
 
-router.get('/users/me', controllerProfile)
-router.patch('/users/me', controllerUpdateUserName)
+router.get('/users/:userId', controllerGetProfileById)
 
 export default router

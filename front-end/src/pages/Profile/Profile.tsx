@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { patchNameUser, userProfile } from '../../services/api'
+import { patchNameUser, userProfile, getUserById } from '../../services/api'
 
 import { useAuth } from '../../hooks/useAuth'
 import { useTheme } from '../../hooks/useTheme'
 
-import {getAvatarColor, getInitial} from '../../utils/avatar'
+import { getAvatarColor, getInitial } from '../../utils/avatar'
 
 import './Profile.css'
 
 type ProfileType = {
   id: number
   name: string
-  email: string
+  email?: string
   createdAt: string
   reviewCount: number
 }
@@ -34,12 +35,20 @@ export function Profile() {
   const { logout, handleExpiredToken, updateUser } = useAuth()
   const { theme, toggleTheme } = useTheme()
 
+  const { userId } = useParams()
+
   useEffect(() => {
     async function loadProfile() {
       try {
         setIsLoading(true)
 
-        const data = await userProfile()
+        let data
+
+        if (userId) {
+          data = await getUserById(Number(userId))
+        } else {
+          data = await userProfile()
+        }
 
         setProfile(data)
       } catch (error) {
@@ -55,7 +64,7 @@ export function Profile() {
     }
 
     loadProfile()
-  }, [handleExpiredToken])
+  }, [userId, handleExpiredToken])
 
   if (isLoading) {
     return (
@@ -90,11 +99,11 @@ export function Profile() {
   }
 
   function handleStartEditing() {
-  if (!profile) return
+    if (!profile) return
 
-  setNewName(profile.name)
-  setIsEditingName(true)
-}
+    setNewName(profile.name)
+    setIsEditingName(true)
+  }
 
   const avatarColor = getAvatarColor(profile.id)
 
@@ -123,30 +132,31 @@ export function Profile() {
               <h1>{profile.name}</h1>
             )}
 
-            {isEditingName ? (
-              <button
-                type="button"
-                className="profile-edit-name-button"
-                onClick={handleEditName}
-                aria-label="Save name"
-                title="Save name"
-              >
-                ✅
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="profile-edit-name-button"
-                onClick={handleStartEditing}
-                aria-label="Edit name"
-                title="Edit name"
-              >
-                ✏️
-              </button>
-            )}
+            {!userId &&
+              (isEditingName ? (
+                <button
+                  type="button"
+                  className="profile-edit-name-button"
+                  onClick={handleEditName}
+                  aria-label="Save name"
+                  title="Save name"
+                >
+                  ✅
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="profile-edit-name-button"
+                  onClick={handleStartEditing}
+                  aria-label="Edit name"
+                  title="Edit name"
+                >
+                  ✏️
+                </button>
+              ))}
           </div>
 
-          <p>{profile.email}</p>
+          {profile.email && <p>{profile.email}</p>}
         </div>
       </section>
 
@@ -174,10 +184,12 @@ export function Profile() {
             <strong>{profile.name}</strong>
           </div>
 
-          <div className="profile-detail">
-            <span>Email</span>
-            <strong>{profile.email}</strong>
-          </div>
+          {profile.email && (
+            <div className="profile-detail">
+              <span>Email</span>
+              <strong>{profile.email}</strong>
+            </div>
+          )}
 
           <div className="profile-detail">
             <span>Member since</span>
@@ -186,23 +198,25 @@ export function Profile() {
         </div>
       </section>
 
-      <div className="profile-actions-footer">
-        <button
-          type="button"
-          className="profile-theme-button"
-          onClick={toggleTheme}
-        >
-          {theme === 'dark' ? 'Light' : 'Dark'}
-        </button>
+      {!userId && (
+        <div className="profile-actions-footer">
+          <button
+            type="button"
+            className="profile-theme-button"
+            onClick={toggleTheme}
+          >
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
 
-        <button
-          type="button"
-          className="profile-logout-button"
-          onClick={logout}
-        >
-          Logout
-        </button>
-      </div>
+          <button
+            type="button"
+            className="profile-logout-button"
+            onClick={logout}
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </main>
   )
 }

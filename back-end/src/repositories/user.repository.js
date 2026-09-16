@@ -57,3 +57,21 @@ export async function updateUserName(userId, name) {
 
   return result.rows[0]
 }
+
+export async function getUserById(userId) {
+  const result = await database.query(`
+    SELECT
+      users.id,
+      users.name,
+      users.created_at AS "createdAt",
+      (
+        SELECT COUNT(*)
+        FROM reviews
+        WHERE reviews.user_id = users.id
+      ) AS "reviewCount"
+    FROM users
+    WHERE users.id = $1
+  `, [userId])
+
+  return result.rows[0]
+}

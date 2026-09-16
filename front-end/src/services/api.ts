@@ -126,7 +126,6 @@ export async function userProfile() {
       Authorization: `Bearer ${getToken()}`
     }
   })
-
   return parseResponse(response)
 }
 
@@ -173,14 +172,10 @@ export async function deleteFavorite(favoriteId: number) {
   return parseResponse(response)
 }
 
-export async function getReviewsByMedia(
-  mediaId: number,
-  mediaType: string
-) {
+export async function getReviewsByMedia(mediaId: number, mediaType: string) {
   const response = await fetch(
     `${API_URL}/reviews/media/${mediaId}/${mediaType}`
   )
-
   return parseResponse(response)
 }
 
@@ -193,6 +188,12 @@ export async function patchNameUser(newName: string) {
     },
     body: JSON.stringify({ name: newName })
   })
+
+  return parseResponse(response)
+}
+
+export async function getUserById(userId: number) {
+  const response = await fetch(`${API_URL}/users/${userId}`,)
 
   return parseResponse(response)
 }
