@@ -16,9 +16,14 @@ export async function serviceGetReviews(userId) {
 
   const reviewsWithMovieData = await Promise.all(
     reviews.map(async (review) => {
-      const response = await fetch(
+      let response
+      if(review.reviewType === 'movies') {
+          response = await fetch(
         `https://api.themoviedb.org/3/movie/${review.mediaId}?api_key=${process.env.TMDB_API_KEY}`
-      )
+      ) } else {
+        response = await fetch(`
+          https://api.themoviedb.org/3/tv/${review.mediaId}?api_key=${process.env.TMDB_API_KEY}`)
+      }
 
       if (!response.ok) {
         throw new Error('Failed to load movie from TMDB')
@@ -33,9 +38,9 @@ export async function serviceGetReviews(userId) {
         userReview: review.userReview,
         createdAt: review.createdAt,
         reviewType: review.reviewType,
-        title: data.title,
+        title: review.reviewType === 'movies' ? data.title : data.name,
         posterPath: data.poster_path,
-        releaseDate: data.release_date
+        releaseDate: review.reviewType === 'movies' ? data.release_date : data.first_air_date
       }
     })
   )

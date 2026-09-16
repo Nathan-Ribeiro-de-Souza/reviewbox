@@ -70,10 +70,7 @@ export async function controllerGetReviewsByMedia(req, res) {
   const mediaId = Number(req.params.mediaId)
   const mediaType = req.params.mediaType
 
-  const reviews = await serviceGetReviewsByMedia(
-    mediaId,
-    mediaType
-  )
+  const reviews = await serviceGetReviewsByMedia( mediaId, mediaType )
 
   return res.status(200).json(reviews)
 }
