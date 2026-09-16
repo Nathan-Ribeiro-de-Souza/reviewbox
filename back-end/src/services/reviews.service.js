@@ -33,7 +33,7 @@ export async function serviceGetReviews(userId) {
 
       return {
         id: review.id,
-        mediaId: review.mediaId,
+        userName: review.userName,
         userRating: review.userRating,
         userReview: review.userReview,
         createdAt: review.createdAt,
